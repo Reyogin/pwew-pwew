@@ -12,6 +12,8 @@ var Player = function(name, color, position, direction) {
         });
 
     bumperMesh = new THREE.Mesh(new THREE.CylinderGeometry(0, 10, 10, 12, 12, false), this.materialBumper);
+    //bumperMesh = new THREE.Mesh(new THREE.Geo(10,0), this.materialBumper);
+
     bumperMesh.rotation.x = Math.PI / 2 ;
 
     sphere = new THREE.SphereGeometry(6, 8, 8);
@@ -21,8 +23,13 @@ var Player = function(name, color, position, direction) {
     THREE.GeometryUtils.merge(canon, sphere);
 
     this.graphic = new THREE.Mesh(sphere, this.material);
+    this.graphic.position.x = position.x;
+    this.graphic.position.y = position.y;
     this.graphic.position.z = 6;
     this.graphic.rotateOnAxis(new THREE.Vector3(0,0,1), this.direction);
+
+    var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+    scene.add( directionalLight );
 };
 
 Player.prototype.accelerate = function (distance) {
@@ -56,8 +63,8 @@ Player.prototype.displayInfo = function () {
 }
 
 Player.prototype.turnRight = function (angle) {
-    this.direction += angle;
-    this.graphic.rotateOnAxis(new THREE.Vector3(0,0,1), angle);
+    this.direction -= angle;
+    this.graphic.rotateOnAxis(new THREE.Vector3(0,0,-1), angle);
 };
 
 Player.prototype.turnLeft = function (angle) {
@@ -66,8 +73,10 @@ Player.prototype.turnLeft = function (angle) {
 };
 
 Player.prototype.move = function () {
+    var x = this.speed * Math.cos(this.direction) + this.graphic.position.x < - WIDTH / 2 ? -WIDTH/2 : this.speed * Math.cos(this.direction) + this.graphic.position.x;
+
     var moveTo = new THREE.Vector3(
-        this.speed * Math.cos(this.direction) + this.graphic.position.x,
+        x,
         this.speed * Math.sin(this.direction) + this.graphic.position.y,
         this.graphic.position.z
     );
@@ -82,5 +91,5 @@ Player.prototype.move = function () {
 
     light1.position.x = this.graphic.position.x;
     light1.position.y = this.graphic.position.y;
-   // light1.position.z = this.graphic.position.z + 500;
+    light1.position.z = this.graphic.position.z + 500;
 };

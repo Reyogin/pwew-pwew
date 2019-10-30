@@ -23,9 +23,16 @@ function init()
     $container.append(renderer.domElement);
 
     noGround = [];
+    isGround = [];
     ground = new Ground(0xffffff, WIDTH, HEIGHT, 10);
+
+    initPos = isGround[Math.floor(Math.random()*isGround.length)];
+
+    console.log(initPos);
+
+    //var f = noGround.find(e => e[0] == initPos[0] && e[1] == initPos[1]);
     
-    player1 = new Player("player1", 0xffff00, new THREE.Vector2(50, 0), 0);
+    player1 = new Player("player1", 0xffff00, new THREE.Vector2(initPos[0], initPos[1]), 0);
     scene.add(player1.graphic);
 
     light1 = new Light("sun", 0xffffff, "0,0,340");
@@ -51,6 +58,7 @@ function Ground(color, size_x, size_y, nb_tile)
        
             if (0x000000 != color)
             {
+                isGround.push([x,y]);
                 tmpGround = new THREE.Mesh(
                 new THREE.PlaneGeometry(sizeOfTileX-10, sizeOfTileY-10),
                 new THREE.MeshLambertMaterial({color: color, transparent: true, opacity: 0.6}));
@@ -66,7 +74,7 @@ function Ground(color, size_x, size_y, nb_tile)
 
 function Light(name, color, position)
 {
-    pointLight = new THREE.PointLight(color, 50, 350);
+    pointLight = new THREE.PointLight(color, 600, 0);
 
     pointLight.position.x = position.split(',')[0];
     pointLight.position.y = position.split(',')[1];
