@@ -27,13 +27,15 @@ function init()
     ground = new Ground(0xffffff, WIDTH, HEIGHT, 10);
 
     initPos = isGround[Math.floor(Math.random()*isGround.length)];
-
-    console.log(initPos);
-
-    //var f = noGround.find(e => e[0] == initPos[0] && e[1] == initPos[1]);
     
     player1 = new Player("player1", 0xffff00, new THREE.Vector2(initPos[0], initPos[1]), 0);
+
+    initPos = isGround[Math.floor(Math.random()*isGround.length)];
+    player2 = new Player("enemy", 0xff0000, new THREE.Vector2(initPos[0], initPos[1]), 0);
+
     scene.add(player1.graphic);
+    scene.add(player2.graphic);
+
 
     light1 = new Light("sun", 0xffffff, "0,0,340");
     scene.add(light1);

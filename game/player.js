@@ -73,10 +73,8 @@ Player.prototype.turnLeft = function (angle) {
 };
 
 Player.prototype.move = function () {
-    var x = this.speed * Math.cos(this.direction) + this.graphic.position.x < - WIDTH / 2 ? -WIDTH/2 : this.speed * Math.cos(this.direction) + this.graphic.position.x;
-
     var moveTo = new THREE.Vector3(
-        x,
+        this.speed * Math.cos(this.direction) + this.graphic.position.x,
         this.speed * Math.sin(this.direction) + this.graphic.position.y,
         this.graphic.position.z
     );
